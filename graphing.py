@@ -32,23 +32,29 @@ def make_temp_graph(forcast_data, ax):
     
 def make_rh_graph(forcast_data, ax):
     ax.plot(forcast_data.index, forcast_data['avghumidity'], label='Average Humidity', color='blue')
+    ax.plot(forcast_data.index, forcast_data['avghumidity'], '.', color='blue')
     ax = format_sub_graph(ax, 'Humidity (%)')
     
 def make_rain_and_snow_graph(forcast_data, ax):
     ax.plot(forcast_data.index, forcast_data['totalprecip_in'], label='Total Rain', color='blue')
+    ax.plot(forcast_data.index, forcast_data['totalprecip_in'], '.', color='blue')
     ax.plot(forcast_data.index, forcast_data['totalsnow_cm']*0.393701, label='Total Snow', color='green')
+    ax.plot(forcast_data.index, forcast_data['totalsnow_cm']*0.393701, '.', color='green')
+
     ax = format_sub_graph(ax, 'Snow/Rain (Inches)') 
     
 def make_wind_graph(forcast_data, ax):
     ax.plot(forcast_data.index, forcast_data['maxwind_mph'], label='Maximum Windspeed', color='blue')
+    ax.plot(forcast_data.index, forcast_data['maxwind_mph'], '.', color='blue')
     ax = format_sub_graph(ax, 'Maximum Wind Speed (mph)') 
     
 def make_uv_graph(forcast_data, ax):
     ax.plot(forcast_data.index, forcast_data['uv'], label='UV', color='blue')
+    ax.plot(forcast_data.index, forcast_data['uv'], '.', color='blue')
     ax = format_sub_graph(ax, 'UV (index)') 
 
 def make_preds_graph(df):
-    fig, axs = plt.subplots(nrows=5, figsize=(12, 15), sharex=True)
+    fig, axs = plt.subplots(nrows=5, figsize=(8.5, 11), sharex=True)
     make_temp_graph(df, ax=axs[0])
     make_rh_graph(df, ax=axs[1])
     make_rain_and_snow_graph(df, ax=axs[2])
