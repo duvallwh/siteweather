@@ -1,8 +1,11 @@
 import folium
+import os
 
 from branca.element import Template, MacroElement
 
 from .legend import compile_legend
+
+ICON_PATH = os.path.join(os.path.dirname(__file__), 'icons')
 
 def plot_point(map_figure, point, icon_path, icon_square_size=6):
     

@@ -12,6 +12,9 @@ from .config import SYNOPTICTOKEN, TOKENWAPI
 
 logging.basicConfig(level=logging.INFO)
 
+forcast_vars = ['maxtemp_f', 'mintemp_f', 'avgtemp_f', 'maxwind_mph', 'totalprecip_in', 'avghumidity', 'totalsnow_cm',
+                'avgvis_miles', 'avghumidity', 'daily_chance_of_rain', 'daily_chance_of_snow', 'condition', 'uv']
+
 def find_ground_stations(lat, lon, radius=30, limit=50, token=SYNOPTICTOKEN):
     """Find the closest ground stations to a given lat/lon point."""
     req = f"https://api.synopticdata.com/v2/stations/metadata?token={token}&radius={lat},{lon},{radius}&limit={limit}"
@@ -26,6 +29,7 @@ def find_ground_stations(lat, lon, radius=30, limit=50, token=SYNOPTICTOKEN):
         return None
     
 def get_20_day_forcast(lat, lon, token=TOKENWAPI):
+    """Get the 20 day forcast for a given lat/lon point."""
     req = f"https://api.weatherapi.com/v1/forecast.json?key={token}&q={lat},{lon}&days=20&aqi=no&alerts=no"
     res = requests.get(req)
     forcast_dict = json.loads(res.text)
@@ -38,6 +42,7 @@ def get_20_day_forcast(lat, lon, token=TOKENWAPI):
 
     forcast_data = pd.DataFrame(output_list)
     forcast_data['date'] = pd.to_datetime(forcast_data['date'])
+    forcast_data = forcast_data.set_index('date')
 
-    return forcast_data
+    return forcast_data[forcast_vars]
     
